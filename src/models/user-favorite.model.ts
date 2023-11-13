@@ -18,13 +18,13 @@ export class UserFavorite extends Entity {
     type: 'date',
     required: true,
   })
-  created_at: string;
+  created_at: Date;
 
   @property({
     type: 'date',
     required: true,
   })
-  updated_at: string;
+  updated_at: Date;
 
 
   constructor(data?: Partial<UserFavorite>) {

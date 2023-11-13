@@ -1,4 +1,5 @@
 import {Entity, model, property} from '@loopback/repository';
+import {v4 as uuid} from 'uuid';
 
 @model()
 export class Favorite extends Entity {
@@ -7,6 +8,7 @@ export class Favorite extends Entity {
     id: true,
     generated: false,
     required: true,
+    default: () => uuid(),
   })
   favorite_id: string;
 
@@ -26,13 +28,13 @@ export class Favorite extends Entity {
     type: 'date',
     required: true,
   })
-  created_at: string;
+  created_at: Date;
 
   @property({
     type: 'date',
     required: true,
   })
-  updated_at: string;
+  updated_at: Date;
 
 
   constructor(data?: Partial<Favorite>) {
