@@ -19,6 +19,14 @@ export class Favorite extends Entity {
   })
   pokemon_id: number;
 
+
+  @property({
+    type: 'string',
+    generated: false,
+    required: true,
+  })
+  user_id: string;
+
   @property({
     type: 'string',
     required: true,
@@ -28,12 +36,14 @@ export class Favorite extends Entity {
   @property({
     type: 'date',
     required: true,
+    defaultFn: 'now',
   })
   created_at: Date;
 
   @property({
     type: 'date',
     required: true,
+    defaultFn: 'now',
   })
   updated_at: Date;
 

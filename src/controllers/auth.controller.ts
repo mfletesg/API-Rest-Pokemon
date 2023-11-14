@@ -4,8 +4,9 @@ import {TokenService, authenticate} from '@loopback/authentication';
 import {Credentials, TokenServiceBindings} from '@loopback/authentication-jwt';
 import {inject} from '@loopback/core';
 import {repository} from '@loopback/repository';
-import {HttpErrors, post, requestBody} from '@loopback/rest';
+import {HttpErrors, getModelSchemaRef, post, requestBody, response} from '@loopback/rest';
 import {UserProfile, securityId} from '@loopback/security';
+import {User} from '../models';
 import {UserRepository} from '../repositories';
 import {encriptPassword} from '../utils/functions';
 // import {inject} from '@loopback/core';
@@ -20,7 +21,29 @@ export class AuthController {
   ) { }
 
   @post('/login')
-  async login(@requestBody() credentials: Credentials): Promise<{token: string}> {
+  @response(200, {
+    description: 'Token de acceso',
+    content: {'application/json': {schema: {}}},
+  })
+  @response(401, {
+    description: 'Credenciales inválidas',
+    content: {'application/json': {schema: {}}},
+  })
+  @response(500, {
+    description: 'Error interno del servidor',
+    content: {'application/json': {schema: {}}},
+  })
+  async login(@requestBody({
+    description: 'API Login',
+    content: {
+      'application/json': {
+        schema: getModelSchemaRef(User, {
+          title: 'Login',
+          exclude: ['user_id', 'created_at', 'updated_at', 'status', 'firstName', 'lastName']
+        }),
+      },
+    },
+  }) credentials: Credentials): Promise<{token: string}> {
 
     const user = await this.userRepository.findOne({
       where: {

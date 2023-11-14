@@ -39,19 +39,22 @@ export class User extends Entity {
 
   @property({
     type: 'boolean',
-    required: true,
+    required: false,
+    default: true,
   })
   status: boolean;
 
   @property({
     type: 'date',
-    required: true,
+    required: false,
+    defaultFn: 'now',
   })
   created_at: Date;
 
   @property({
     type: 'date',
-    required: true,
+    required: false,
+    defaultFn: 'now',
   })
   updated_at: Date;
 

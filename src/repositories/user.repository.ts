@@ -14,4 +14,15 @@ export class UserRepository extends DefaultCrudRepository<
   ) {
     super(User, dataSource);
   }
+
+
+  async findByEmail(email: string): Promise<User | null> {
+    try {
+      const user = await this.findOne({where: {email}});
+      return user || null;
+    } catch (error) {
+      console.error('Error al buscar usuario por email', error);
+      throw new Error('Error al buscar usuario por email');
+    }
+  }
 }
