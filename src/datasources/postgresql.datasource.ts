@@ -2,6 +2,7 @@ import {Context, inject, lifeCycleObserver, LifeCycleObserver} from '@loopback/c
 import {juggler} from '@loopback/repository';
 import {v4 as uuidv4} from 'uuid';
 import {UserRepository} from '../repositories';
+import {encriptPassword} from '../utils/functions';
 
 const config = {
   name: 'postgresql',
@@ -52,10 +53,12 @@ export class PostgresqlDataSource extends juggler.DataSource
     // Si el usuario no existe, créalo
     if (!existingUser) {
       try {
+        const passwordEncript = await encriptPassword('test')
+        console.log(passwordEncript)
         await userRepository.create({
           user_id: uuidv4(),
           email: 'test@email.com',
-          password: 'test',
+          password: passwordEncript,
           lastName: 'admin',
           firstName: 'admin',
           status: true,
