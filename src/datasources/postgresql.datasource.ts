@@ -53,7 +53,7 @@ export class PostgresqlDataSource extends juggler.DataSource
     if (!existingUser) {
       try {
         await userRepository.create({
-          id: uuidv4(),
+          user_id: uuidv4(),
           email: 'test@email.com',
           password: 'test',
           lastName: 'admin',

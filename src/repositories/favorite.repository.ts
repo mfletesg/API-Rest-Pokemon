@@ -1,17 +1,16 @@
 import {inject} from '@loopback/core';
 import {DefaultCrudRepository} from '@loopback/repository';
 import {PostgresqlDataSource} from '../datasources';
-import {User, UserRelations} from '../models';
+import {Favorite, FavoriteRelations} from '../models';
 
-export class UserRepository extends DefaultCrudRepository<
-  User,
-  typeof User.prototype.user_id,
-  UserRelations
+export class FavoriteRepository extends DefaultCrudRepository<
+  Favorite,
+  typeof Favorite.prototype.favorite_id,
+  FavoriteRelations
 > {
-
   constructor(
     @inject('datasources.postgresql') dataSource: PostgresqlDataSource,
   ) {
-    super(User, dataSource);
+    super(Favorite, dataSource);
   }
 }

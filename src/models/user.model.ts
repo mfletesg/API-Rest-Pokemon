@@ -1,5 +1,6 @@
-import {Entity, model, property} from '@loopback/repository';
+import {Entity, hasMany, model, property} from '@loopback/repository';
 import {v4 as uuid} from 'uuid';
+import {UserFavorite, UserFavoriteRelations} from './user-favorite.model';
 
 @model()
 export class User extends Entity {
@@ -10,7 +11,7 @@ export class User extends Entity {
     required: true,
     default: () => uuid(),
   })
-  id: string;
+  user_id: string;
 
   @property({
     type: 'string',
@@ -55,13 +56,18 @@ export class User extends Entity {
   updated_at: Date;
 
 
+
+  @hasMany(() => UserFavorite, {keyTo: 'user_id'})
+  userFavorites: UserFavorite[];
+
+
   constructor(data?: Partial<User>) {
     super(data);
   }
 }
 
 export interface UserRelations {
-  // describe navigational properties here
+  userFavorites?: UserFavoriteRelations;
 }
 
 export type UserWithRelations = User & UserRelations;
