@@ -1,7 +1,7 @@
 # Pokémon
 
 [![LoopBack](https://github.com/loopbackio/loopback-next/raw/master/docs/site/imgs/branding/Powered-by-LoopBack-Badge-(blue)-@2x.png)](http://loopback.io/)
-[![LoopBack]([https://github.com/loopbackio/loopback-next/raw/master/docs/site/imgs/branding/Powered-by-LoopBack-Badge-(blue)-@2x.png](https://es.m.wikipedia.org/wiki/Archivo:International_Pokémon_logo.svg))]([http://loopback.io/](https://es.m.wikipedia.org/wiki/Archivo:International_Pokémon_logo.svg))
+[![LoopBack](https://es.m.wikipedia.org/wiki/Archivo:International_Pokémon_logo.svg)](https://es.m.wikipedia.org/wiki/Archivo:International_Pokémon_logo.svg)
 
 Esta aplicacion esta usando [LoopBack 4 CLI](https://loopback.io/doc/en/lb4/Command-line-interface.html) with the
 [initial project layout](https://loopback.io/doc/en/lb4/Loopback-application-layout.html).
