@@ -26,6 +26,14 @@ También puedes ejecutar `node` . para omitir el paso de construcción.
 
 Open http://127.0.0.1:3000 in your browser.
 
+
+## Ejecutar APIS via Postman
+En el proyecto existe un archivo en el directorio `/postman/APIS Pokemon.postman_collection.json` el cual se importar para empezar a consumir las APIS, en esa coleccion ya viene configuradas las varables de entorno
+
+
+
+
+
 ## Preguntas de la prueba
 
 
