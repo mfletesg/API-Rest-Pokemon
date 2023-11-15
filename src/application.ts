@@ -59,8 +59,6 @@ export class PokemonApplication extends BootMixin(
     this.configure(RefreshTokenServiceBindings.REFRESH_EXPIRES_IN).to("6600");;
 
     this.service(PokemonService);
-    // Bind datasource
-    // this.dataSource(PostgresqlDataSource, UserServiceBindings.DATASOURCE_NAME);
     // ------------- END OF SNIPPET -------------
   }
 }

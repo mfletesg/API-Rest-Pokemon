@@ -127,11 +127,7 @@ export class UsersController {
     })
     user: User,
   ): Promise<void> {
-    console.log(user.email)
     const userEmail = await this.userRepository.findByEmail(user.email);
-    console.log(userEmail)
-    console.log(id)
-
 
     if (user.email !== undefined && user.email !== null) {
       if (userEmail?.user_id != null && userEmail?.user_id != id) {
@@ -142,8 +138,6 @@ export class UsersController {
         };
       }
     }
-
-
     if (user.status !== undefined) {
       throw {
         statusCode: 403,

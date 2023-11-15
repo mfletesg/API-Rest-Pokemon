@@ -76,8 +76,6 @@ export class AuthController {
       email: user.email,
     };
 
-    console.log(this.tokenExpiresIn)
-
     let response: ResponseTokenEntity = {
       token: '',
       expiresIn: +this.tokenExpiresIn,

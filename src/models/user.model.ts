@@ -59,16 +59,8 @@ export class User extends Entity {
   })
   updated_at: Date;
 
-
-  // @hasMany(() => Favorite, {keyTo: 'userId'})
-  // favorites: Favorite[];
-
-  // @hasMany(() => Favorite)
-  // favorites?: Favorite[];
-
   @hasMany(() => Favorite, {keyTo: 'user_id', name: 'favorites'})
   favorites?: Favorite[];
-
 
   constructor(data?: Partial<User>) {
     super(data);

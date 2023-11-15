@@ -55,7 +55,6 @@ export class PostgresqlDataSource extends juggler.DataSource
     if (!existingUser) {
       try {
         const passwordEncript = await encriptPassword('test')
-        console.log(passwordEncript)
         await userRepository.create({
           user_id: uuidv4(),
           email: 'test@whathecode.com',

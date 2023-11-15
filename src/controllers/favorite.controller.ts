@@ -92,7 +92,6 @@ export class FavoriteController {
     }
 
     const existPokemon = await this.favoriteRepository.findByPokemonId(favorite.pokemon_id, userId)
-    console.log(existPokemon)
     if (existPokemon !== null) {
       throw {
         statusCode: 409,

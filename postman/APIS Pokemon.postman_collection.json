@@ -371,7 +371,7 @@
 					"response": []
 				},
 				{
-					"name": "Create Favorite Copy",
+					"name": "Delete Favorite",
 					"request": {
 						"auth": {
 							"type": "bearer",

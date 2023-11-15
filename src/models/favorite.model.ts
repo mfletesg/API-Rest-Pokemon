@@ -40,27 +40,8 @@ export class Favorite extends Entity {
   })
   updated_at: Date;
 
-
-  // @belongsTo(() => User, {keyFrom: 'user_id', keyTo: 'user_id', name: 'user_id', })
-  // user_id: User;
-
-  // @belongsTo(() => User, {keyFrom: 'user_id', name: 'user'})
-  // user_id: string;
-
-  // @belongsTo(() => User, {keyFrom: 'userId', name: 'user'})
-  // userId: string;
-
-
   @belongsTo(() => User, {keyTo: 'user_id', name: 'user'})
   user_id: string;
-
-
-  // // Agrega esta propiedad para almacenar el ID del usuario
-  // @property({
-  //   type: 'string',
-  //   required: false,
-  // })
-  // user_id: string;
 
   constructor(data?: Partial<Favorite>) {
     super(data);
