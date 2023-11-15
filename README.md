@@ -24,7 +24,9 @@ npm start
 
 También puedes ejecutar `node` . para omitir el paso de construcción.
 
-Open http://127.0.0.1:3000 in your browser.
+Al ejecutar la aplicación se crea el esquema de la base de datos y un usuario con el correo: `test@whathecode.com` y contraseña: `test`, la logica de esta funcion se encuentra en el archivo `/src/datasources/postgresql.datasource.ts`
+
+Abre http://127.0.0.1:3000 en tu navegador.
 
 
 ## Ejecutar APIS via Postman
@@ -76,40 +78,40 @@ npm install dotenv
 ```
 
 ## Comandos Utilizados para la creacón del proyecto
-### Instale el conector para postgresql:
+Instale el conector para postgresql:
 ```sh
 npm install loopback-connector-postgresql --save
 ```
 
-### Posteriormente en la terminal cree un datasources para configurar postgresql con loopback4
+Posteriormente en la terminal cree un datasources para configurar postgresql con loopback4
 ```sh
 lb4 datasource
 ```
 
 
-### Se crearon los modelos con el siguiente comando, los cuales son "users", "favorites"
+Se crearon los modelos con el siguiente comando, los cuales son "users", "favorites"
 ```sh
 lb4 model
 ```
 
-### Se crearon un repositorio por cada Modelo
+Se crearon un repositorio por cada Modelo
 ```sh
 lb4 repository
 ```
 
-### Posteriormente se crearon los controladores de "users", "favorites"
+Posteriormente se crearon los controladores de "users", "favorites"
 ```sh
 lb4 controller
 ```
  
 
-To incrementally build the project:
+Para construir el proyecto de forma incremental:
 
 ```sh
 npm run build
 ```
 
-To force a full build by cleaning up cached artifacts:
+Para forzar una construcción completa limpiando los artefactos en caché:
 
 ```sh
 npm run rebuild
