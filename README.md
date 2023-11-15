@@ -1,7 +1,7 @@
 # Pokémon
 
 [![LoopBack](https://github.com/loopbackio/loopback-next/raw/master/docs/site/imgs/branding/Powered-by-LoopBack-Badge-(blue)-@2x.png)](http://loopback.io/)
-[![LoopBack](https://1000marcas.net/wp-content/uploads/2020/01/Logo-Pokemon.png)](https://1000marcas.net/wp-content/uploads/2020/01/Logo-Pokemon.png)
+![LogoPokemon](./img/logo-pokemon.png)
 
 Esta aplicacion esta usando [LoopBack 4 CLI](https://loopback.io/doc/en/lb4/Command-line-interface.html) with the
 [initial project layout](https://loopback.io/doc/en/lb4/Loopback-application-layout.html).
@@ -29,7 +29,7 @@ Open http://127.0.0.1:3000 in your browser.
 
 ## Ejecutar APIS via Postman
 En el proyecto existe un archivo en el directorio `/postman/APIS Pokemon.postman_collection.json` el cual se importar para empezar a consumir las APIS, en esa coleccion ya viene configuradas las varables de entorno
-
+![postman](./img/Img-Postman.png)
 
 
 
