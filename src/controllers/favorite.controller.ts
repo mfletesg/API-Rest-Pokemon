@@ -1,19 +1,20 @@
-import {authenticate} from '@loopback/authentication';
+import {authenticate, AuthenticationBindings} from '@loopback/authentication';
 import {inject} from '@loopback/core';
 import {
   FilterExcludingWhere,
   repository
 } from '@loopback/repository';
 import {
-  HttpErrors,
   del,
   get,
   getModelSchemaRef,
+  HttpErrors,
   param,
   post,
   requestBody,
   response
 } from '@loopback/rest';
+import {UserProfile} from '@loopback/security';
 import {v4 as uuidv4} from 'uuid';
 import {PokemonListEntity} from '../entity/listPokemon';
 import {PokemonImgEntity, PokemonListResponseEntity} from '../entity/listPokemonResponse';
@@ -32,7 +33,7 @@ export class FavoriteController {
   ) { }
 
 
-  // @authenticate('jwt')
+  @authenticate('jwt')
   @get('/user/{userId}/favorite')
   @response(200, {
     description: 'Gell Favorite model instance by User',
@@ -55,7 +56,7 @@ export class FavoriteController {
   }
 
 
-  // @authenticate('jwt')
+  @authenticate('jwt')
   @post('/user/{userId}/favorite')
   @response(200, {
     description: 'New Favorite Pokemon model instance',
@@ -78,14 +79,33 @@ export class FavoriteController {
       },
     })
     favorite: Favorite,
+    @inject(AuthenticationBindings.CURRENT_USER, {optional: true}) userProfile: UserProfile
   ): Promise<Favorite> {
 
+    //Validamos que solo el usuario pueda añadir sus pokemos
+    if (userProfile.id !== userId) {
+      throw {
+        statusCode: 404,
+        name: 'ForbiddenError',
+        message: 'It is not allowed to modify or add another Pokémon from another user.',
+      };
+    }
+
+    const existPokemon = await this.favoriteRepository.findByPokemonId(favorite.pokemon_id, userId)
+    console.log(existPokemon)
+    if (existPokemon !== null) {
+      throw {
+        statusCode: 409,
+        name: 'ConflictError',
+        message: 'The Pokémon already exists in favorites.',
+      };
+    }
     const user = await this.userRepository.findById(userId);
 
     if (!user) {
       throw {
         statusCode: 404,
-        name: 'ForbiddenError',
+        name: 'NotFoundError',
         message: 'userId not found',
       };
     }
@@ -99,7 +119,7 @@ export class FavoriteController {
   }
 
 
-  // @authenticate('jwt')
+  @authenticate('jwt')
   @get('/pokemon')
   @response(200, {
     description: 'List Pokemons',

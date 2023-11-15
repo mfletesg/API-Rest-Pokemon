@@ -1,3 +1,5 @@
+import {AuthenticationBindings, authenticate} from '@loopback/authentication';
+import {inject} from '@loopback/core';
 import {
   Filter,
   FilterExcludingWhere,
@@ -13,6 +15,7 @@ import {
   requestBody,
   response
 } from '@loopback/rest';
+import {UserProfile} from '@loopback/security';
 import {User} from '../models';
 import {UserRepository} from '../repositories';
 import {encriptPassword} from '../utils/functions';
@@ -23,6 +26,7 @@ export class UsersController {
     public userRepository: UserRepository,
   ) { }
 
+  @authenticate('jwt')
   @post('/users')
   @response(200, {
     description: 'User model instance',
@@ -55,7 +59,7 @@ export class UsersController {
     return this.userRepository.create(user);
   }
 
-
+  @authenticate('jwt')
   @get('/users')
   @response(200, {
     description: 'Array of User model instances',
@@ -84,8 +88,8 @@ export class UsersController {
     return this.userRepository.find(filter);
   }
 
-
-  @get('/users/{id}')
+  @authenticate('jwt')
+  @get('/users/{userId}')
   @response(200, {
     description: 'User model instance',
     content: {
@@ -95,22 +99,24 @@ export class UsersController {
     },
   })
   async findById(
-    @param.path.string('id') id: string,
+    @param.path.string('userId') id: string,
     @param.filter(User, {exclude: 'where'}) filter?: FilterExcludingWhere<User>
   ): Promise<User> {
     return this.userRepository.findById(id, filter);
   }
 
-  @patch('/users/{id}')
+  @authenticate('jwt')
+  @patch('/users/{userId}')
   @response(204, {
     description: 'User PATCH success',
   })
   async updateById(
-    @param.path.string('id') id: string,
+    @param.path.string('userId') id: string,
     @requestBody({
       content: {
         'application/json': {
           schema: getModelSchemaRef(User, {partial: true}),
+          exclude: ['user_id', 'email', 'created_at', 'updated_at', 'status'],
           example: {
             firstName: 'Juan',
             lastName: 'Garcia',
@@ -121,16 +127,22 @@ export class UsersController {
     })
     user: User,
   ): Promise<void> {
-
+    console.log(user.email)
     const userEmail = await this.userRepository.findByEmail(user.email);
+    console.log(userEmail)
+    console.log(id)
 
-    if (userEmail?.user_id != null && userEmail?.user_id != id) {
-      throw {
-        statusCode: 403,
-        name: 'ForbiddenError',
-        message: `Action not allowed, the email ${user.email} is already in use in the system`,
-      };
+
+    if (user.email !== undefined && user.email !== null) {
+      if (userEmail?.user_id != null && userEmail?.user_id != id) {
+        throw {
+          statusCode: 403,
+          name: 'ForbiddenError',
+          message: `Action not allowed, the email ${user.email} is already in use in the system11`,
+        };
+      }
     }
+
 
     if (user.status !== undefined) {
       throw {
@@ -147,12 +159,23 @@ export class UsersController {
   }
 
 
-
-  @del('/users/{id}')
+  @authenticate('jwt')
+  @del('/users/{userId}')
   @response(204, {
     description: 'User DELETE success',
   })
-  async deleteById(@param.path.string('id') id: string): Promise<void> {
+
+  async deleteById(
+    @param.path.string('userId') id: string,
+    @inject(AuthenticationBindings.CURRENT_USER, {optional: true}) userProfile: UserProfile
+  ): Promise<void> {
+    if (userProfile.id === id) {
+      throw {
+        statusCode: 409,
+        name: 'ConflictError',
+        message: 'You cannot delete your own user.',
+      };
+    }
     await this.userRepository.deleteById(id);
   }
 
@@ -160,12 +183,12 @@ export class UsersController {
 
 
 
-  @patch('/users/{id}/status')
+  @patch('/users/{user_id}/status')
   @response(204, {
     description: 'Active or Disable User by Id',
   })
   async statusUser(
-    @param.path.string('id') id: string,
+    @param.path.string('user_id') id: string,
     @requestBody({
       description: 'Active o Disable User',
       content: {

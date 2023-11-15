@@ -33,4 +33,15 @@ export class FavoriteRepository extends DefaultCrudRepository<
     await this.deleteAll(where);
   }
 
+
+  async findByPokemonId(pokemonId: number, userId: string): Promise<Favorite | null> {
+    const favorite = await this.findOne({
+      where: {
+        pokemon_id: pokemonId,
+        user_id: userId,
+      },
+    });
+    return favorite ?? null;
+  }
+
 }
