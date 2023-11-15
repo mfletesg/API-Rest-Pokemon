@@ -39,6 +39,49 @@ Primero tener en cuanta que el usuario para poder agregar o eliminar debe estar 
 
 ### ¿Si un usuario tiene muchos Pokémon en su lista de favoritos, ¿cómo mejorarías el rendimiento de las consultas para obtenerlos?
 Se tendria que realizar una paginación a nivel base de datos donde en el api reciba un atributo "offset" y un "limit", además agregando un filtro de busqueda para ir filtrando los datos que solo requiere
+
+
+
+## Librerias Utilizadas
+
+### Se utilizo como estandar de id uuid para evitar que los id sean enteros y por cuestion de seguridad de datos
+
+```sh
+npm install uuid
+```
+
+### Se utilizo para usar el archivo `.env` y usarlo para la conexión de la DB
+
+```sh
+npm install dotenv
+```
+
+## Comandos Utilizados para la creacón del proyecto
+### Instale el conector para postgresql:
+```sh
+npm install loopback-connector-postgresql --save
+```
+
+### Posteriormente en la terminal cree un datasources para configurar postgresql con loopback4
+```sh
+lb4 datasource
+```
+
+
+### Se crearon los modelos con el siguiente comando, los cuales son "users", "favorites"
+```sh
+lb4 model
+```
+
+### Se crearon un repositorio por cada Modelo
+```sh
+lb4 repository
+```
+
+### Posteriormente se crearon los controladores de "users", "favorites"
+```sh
+lb4 controller
+```
  
 
 To incrementally build the project:
