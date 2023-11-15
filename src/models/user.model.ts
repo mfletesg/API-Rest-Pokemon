@@ -10,6 +10,7 @@ export class User extends Entity {
     generated: false,
     required: true,
     default: () => uuid(),
+    example: '7d39273d-bfe9-4601-a5a6-7b6e72f24971'
   })
   user_id: string;
 

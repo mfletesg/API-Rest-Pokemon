@@ -8,7 +8,9 @@ export class Favorite extends Entity {
     type: 'string',
     id: true,
     generated: false,
+    useDefaultIdType: false,
     default: () => uuid(),
+    example: '1s79273s-bfe9-1206-a5a6-9b6e22f27952'
   })
   favorite_id: string;
 

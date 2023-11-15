@@ -1,5 +1,5 @@
 import {AuthenticationComponent} from '@loopback/authentication';
-import {JWTAuthenticationComponent} from '@loopback/authentication-jwt';
+import {JWTAuthenticationComponent, RefreshTokenServiceBindings, TokenServiceBindings} from '@loopback/authentication-jwt';
 import {BootMixin} from '@loopback/boot';
 import {ApplicationConfig} from '@loopback/core';
 import {RepositoryMixin} from '@loopback/repository';
@@ -53,6 +53,10 @@ export class PokemonApplication extends BootMixin(
     this.component(AuthenticationComponent);
     // Mount jwt component
     this.component(JWTAuthenticationComponent);
+
+    this.bind(TokenServiceBindings.TOKEN_EXPIRES_IN).to("3600");
+    // for refresh token expiration
+    this.configure(RefreshTokenServiceBindings.REFRESH_EXPIRES_IN).to("6600");;
 
     this.service(PokemonService);
     // Bind datasource

@@ -14,10 +14,11 @@ import {
   requestBody,
   response
 } from '@loopback/rest';
+import {v4 as uuidv4} from 'uuid';
 import {PokemonListEntity} from '../entity/listPokemon';
 import {PokemonImgEntity, PokemonListResponseEntity} from '../entity/listPokemonResponse';
 import {Favorite} from '../models';
-import {FavoriteRepository} from '../repositories';
+import {FavoriteRepository, UserRepository} from '../repositories';
 import {PokemonService} from '../services';
 
 export class FavoriteController {
@@ -26,17 +27,18 @@ export class FavoriteController {
     public favoriteRepository: FavoriteRepository,
     @inject('services.PokemonService')
     public pokemonService: PokemonService,
+    @repository(UserRepository) protected userRepository: UserRepository,
 
   ) { }
 
 
-  @authenticate('jwt')
+  // @authenticate('jwt')
   @get('/user/{userId}/favorite')
   @response(200, {
     description: 'Gell Favorite model instance by User',
     content: {
       'application/json': {
-        schema: getModelSchemaRef(Favorite, {includeRelations: true}),
+        schema: getModelSchemaRef(Favorite),
       },
     },
   })
@@ -53,7 +55,7 @@ export class FavoriteController {
   }
 
 
-  @authenticate('jwt')
+  // @authenticate('jwt')
   @post('/user/{userId}/favorite')
   @response(200, {
     description: 'New Favorite Pokemon model instance',
@@ -66,18 +68,38 @@ export class FavoriteController {
         'application/json': {
           schema: getModelSchemaRef(Favorite, {
             title: 'NewFavoritePokemon',
+            exclude: ['favorite_id', 'created_at', 'created_at', 'updated_at', 'user_id'],
           }),
+          example: {
+            pokemon_id: 2,
+            name: 'ivysaur'
+          },
         },
       },
     })
     favorite: Favorite,
   ): Promise<Favorite> {
+
+    const user = await this.userRepository.findById(userId);
+
+    if (!user) {
+      throw {
+        statusCode: 404,
+        name: 'ForbiddenError',
+        message: 'userId not found',
+      };
+    }
+
+    if (favorite.favorite_id) {
+      favorite.favorite_id = uuidv4();
+    }
+
     favorite.user_id = userId;
     return this.favoriteRepository.create(favorite);
   }
 
 
-  @authenticate('jwt')
+  // @authenticate('jwt')
   @get('/pokemon')
   @response(200, {
     description: 'List Pokemons',

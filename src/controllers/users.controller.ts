@@ -1,10 +1,7 @@
 import {
-  Count,
-  CountSchema,
   Filter,
   FilterExcludingWhere,
-  repository,
-  Where,
+  repository
 } from '@loopback/repository';
 import {
   del,
@@ -66,7 +63,17 @@ export class UsersController {
       'application/json': {
         schema: {
           type: 'array',
-          items: getModelSchemaRef(User, {includeRelations: true}),
+          items: getModelSchemaRef(User),
+        },
+        example: {
+          user_id: '7d39273d-bfe9-4601-a5a6-7b6e72f24971',
+          email: 'user@email.com',
+          firstName: 'Juan',
+          lastName: 'Garcia',
+          password: '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08',
+          status: true,
+          created_at: '2023-11-15T14:12:02.369Z',
+          updated_at: '2023-11-15T14:12:02.369Z'
         },
       },
     },
@@ -77,24 +84,6 @@ export class UsersController {
     return this.userRepository.find(filter);
   }
 
-  @patch('/users')
-  @response(200, {
-    description: 'User PATCH success count',
-    content: {'application/json': {schema: CountSchema}},
-  })
-  async updateAll(
-    @requestBody({
-      content: {
-        'application/json': {
-          schema: getModelSchemaRef(User, {partial: true}),
-        },
-      },
-    })
-    user: User,
-    @param.where(User) where?: Where<User>,
-  ): Promise<Count> {
-    return this.userRepository.updateAll(user, where);
-  }
 
   @get('/users/{id}')
   @response(200, {
@@ -122,6 +111,11 @@ export class UsersController {
       content: {
         'application/json': {
           schema: getModelSchemaRef(User, {partial: true}),
+          example: {
+            firstName: 'Juan',
+            lastName: 'Garcia',
+            password: 'test',
+          },
         },
       },
     })

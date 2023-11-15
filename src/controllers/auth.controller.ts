@@ -6,6 +6,7 @@ import {inject} from '@loopback/core';
 import {repository} from '@loopback/repository';
 import {HttpErrors, getModelSchemaRef, post, requestBody, response} from '@loopback/rest';
 import {UserProfile, securityId} from '@loopback/security';
+import {ResponseTokenEntity} from '../entity/responseToken';
 import {User} from '../models';
 import {UserRepository} from '../repositories';
 import {encriptPassword} from '../utils/functions';
@@ -18,12 +19,23 @@ export class AuthController {
     public jwtService: TokenService,
     @repository(UserRepository)
     public userRepository: UserRepository,
-  ) { }
+    @inject(TokenServiceBindings.TOKEN_EXPIRES_IN) private tokenExpiresIn: string,
+  ) {
+
+
+  }
 
   @post('/login')
   @response(200, {
     description: 'Token de acceso',
-    content: {'application/json': {schema: {}}},
+    content: {
+      'application/json': {
+        schema: {},
+        example: {
+          token: 'your_access_token'
+        },
+      }
+    },
   })
   @response(401, {
     description: 'Credenciales inválidas',
@@ -41,9 +53,13 @@ export class AuthController {
           title: 'Login',
           exclude: ['user_id', 'created_at', 'updated_at', 'status', 'firstName', 'lastName']
         }),
+        example: {
+          email: 'test@whathecode.com',
+          password: 'test'
+        },
       },
     },
-  }) credentials: Credentials): Promise<{token: string}> {
+  }) credentials: Credentials): Promise<ResponseTokenEntity> {
 
     const user = await this.userRepository.findOne({
       where: {
@@ -52,20 +68,23 @@ export class AuthController {
     });
 
     const password = await encriptPassword(credentials.password)
-
     if (!user || user.password !== password) {
       throw new HttpErrors.Unauthorized('Invalid credentials');
     }
-
-    // Convertir el objeto User a UserProfile
     const userProfile: UserProfile = {
       [securityId]: user.user_id,
       email: user.email,
-      // otras propiedades del perfil según sea necesario
     };
 
-    const token = await this.jwtService.generateToken(userProfile);
+    console.log(this.tokenExpiresIn)
 
-    return {token};
+    let response: ResponseTokenEntity = {
+      token: '',
+      expiresIn: +this.tokenExpiresIn,
+      tokenType: 'Bearer',
+    };
+
+    response.token = await this.jwtService.generateToken(userProfile);
+    return response;
   }
 }

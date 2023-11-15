@@ -3,16 +3,17 @@ import {juggler} from '@loopback/repository';
 import {v4 as uuidv4} from 'uuid';
 import {UserRepository} from '../repositories';
 import {encriptPassword} from '../utils/functions';
+require('dotenv').config();
 
 const config = {
   name: 'postgresql',
   connector: 'postgresql',
   url: '',
-  host: 'localhost',
-  port: 5432,
-  user: 'postgres',
-  password: 'HTTP99@0',
-  database: 'pokemonDB'
+  host: process.env.DB_HOST || 'localhost',
+  port: process.env.DB_PORT ? parseInt(process.env.DB_PORT, 10) : 5432,
+  user: process.env.DB_USER || 'postgres',
+  password: process.env.DB_PASSWORD || 'HTTP99@0',
+  database: process.env.DB_NAME || 'pokemonDB',
 };
 
 
@@ -48,7 +49,7 @@ export class PostgresqlDataSource extends juggler.DataSource
   async createUser(userRepository: UserRepository) {
     // Verifica si el usuario ya existe
     const existingUser = await userRepository.findOne({
-      where: {email: 'test@email.com'},
+      where: {email: 'test@whathecode.com'},
     });
     // Si el usuario no existe, créalo
     if (!existingUser) {
@@ -57,16 +58,16 @@ export class PostgresqlDataSource extends juggler.DataSource
         console.log(passwordEncript)
         await userRepository.create({
           user_id: uuidv4(),
-          email: 'test@email.com',
+          email: 'test@whathecode.com',
           password: passwordEncript,
           lastName: 'admin',
-          firstName: 'admin',
+          firstName: 'test',
           status: true,
           created_at: new Date(),
           updated_at: new Date(),
         });
       } catch (error) {
-        console.error('Error insertar dato', error);
+        console.error('Error inserting data ', error);
       }
     }
   }
@@ -76,9 +77,9 @@ export class PostgresqlDataSource extends juggler.DataSource
     try {
       // Utiliza autoupdate para crear o actualizar el esquema de la base de datos
       await this.autoupdate();
-      console.log('Esquema de base de datos creado o actualizado.');
+      console.log('Database schema created or updated.');
     } catch (error) {
-      console.error('Error al crear o actualizar el esquema de la base de datos:', error);
+      console.error('Error creating or updating the database schema:', error);
     }
   }
 }
