@@ -30,7 +30,7 @@ Abre http://127.0.0.1:3000 en tu navegador.
 
 
 ## Seguridad en la API
-Para consumir las APIs primero se tiene que utlizar el endpoint `/login` donde se tienen que eviar las credenciales (email y password) para que se pueda iniciar sesión por JWT, ese token se tiene que poner en las otras APIs por el metodo `Bearer Authentication`, en el caso que no se proporcione el token el recurso deniega la funcionalidad de la petición
+Para consumir las APIs primero se tiene que utlizar el endpoint `/login` donde se tienen que enviar las credenciales (email y password) para que se pueda iniciar sesión por JWT, ese token se tiene que poner en las otras APIs por el metodo `Bearer Authentication`, en el caso que no se proporcione el token el recurso deniega la funcionalidad de la petición
 
 
 ## Ejecutar APIS via Postman
