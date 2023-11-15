@@ -23,18 +23,18 @@ También puedes ejecutar `node` . para omitir el paso de construcción.
 
 Open http://127.0.0.1:3000 in your browser.
 
-# Preguntas de la prueba
+## Preguntas de la prueba
 
 
 
-##¿Cómo implementaste la relación entre el modelo de usuario y el modelo de favoritos?
+### ¿Cómo implementaste la relación entre el modelo de usuario y el modelo de favoritos?
 Use la propiedad de entidades que tiene LoopBack4 donde se creo la entidad de `user` y `favorites` y se realizo una migración para los esquemas se crearan en la Base de datos, en cada Modelo de entidad se realizo la relación con decoradores "@hasMany" y "@belongsTo"
 
 
-##¿Qué consideraciones tuviste en cuenta para asegurarte de que un usuario solo pueda agregar o eliminar sus propios Pokémon favoritos?
+### ¿Qué consideraciones tuviste en cuenta para asegurarte de que un usuario solo pueda agregar o eliminar sus propios Pokémon favoritos?
 Primero tener en cuanta que el usuario para poder agregar o eliminar debe estar logueado por JWT, el api de agregar o eliminar envía el id del usuario por parámetro pero se valida que el token corresponda al id que se recibe en la petición.
 
-##¿Si un usuario tiene muchos Pokémon en su lista de favoritos, ¿cómo mejorarías el rendimiento de las consultas para obtenerlos?
+### ¿Si un usuario tiene muchos Pokémon en su lista de favoritos, ¿cómo mejorarías el rendimiento de las consultas para obtenerlos?
 Se tendria que realizar una paginación a nivel base de datos donde en el api reciba un atributo "offset" y un "limit", además agregando un filtro de busqueda para ir filtrando los datos que solo requiere
  
 
