@@ -146,8 +146,6 @@ export class UsersController {
       };
     }
 
-    console.log('Entro aqui')
-
     const password = await encriptPassword(user.password);
     user.password = password;
     await this.userRepository.updateById(id, user)

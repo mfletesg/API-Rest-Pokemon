@@ -11,6 +11,7 @@ import {
 import {ServiceMixin} from '@loopback/service-proxy';
 import path from 'path';
 import {MySequence} from './sequence';
+import {PokemonService} from './services';
 
 
 
@@ -52,6 +53,8 @@ export class PokemonApplication extends BootMixin(
     this.component(AuthenticationComponent);
     // Mount jwt component
     this.component(JWTAuthenticationComponent);
+
+    this.service(PokemonService);
     // Bind datasource
     // this.dataSource(PostgresqlDataSource, UserServiceBindings.DATASOURCE_NAME);
     // ------------- END OF SNIPPET -------------

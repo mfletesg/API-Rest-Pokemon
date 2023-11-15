@@ -1,6 +1,6 @@
 import {Entity, hasMany, model, property} from '@loopback/repository';
 import {v4 as uuid} from 'uuid';
-import {UserFavorite, UserFavoriteRelations} from './user-favorite.model';
+import {Favorite, FavoriteWithRelations} from './favorite.model';
 
 @model()
 export class User extends Entity {
@@ -59,9 +59,14 @@ export class User extends Entity {
   updated_at: Date;
 
 
+  // @hasMany(() => Favorite, {keyTo: 'userId'})
+  // favorites: Favorite[];
 
-  @hasMany(() => UserFavorite, {keyTo: 'user_id'})
-  userFavorites: UserFavorite[];
+  // @hasMany(() => Favorite)
+  // favorites?: Favorite[];
+
+  @hasMany(() => Favorite, {keyTo: 'user_id', name: 'favorites'})
+  favorites?: Favorite[];
 
 
   constructor(data?: Partial<User>) {
@@ -70,7 +75,7 @@ export class User extends Entity {
 }
 
 export interface UserRelations {
-  userFavorites?: UserFavoriteRelations;
+  favorites?: FavoriteWithRelations[];
 }
 
 export type UserWithRelations = User & UserRelations;

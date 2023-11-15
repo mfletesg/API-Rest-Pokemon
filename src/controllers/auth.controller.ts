@@ -51,10 +51,6 @@ export class AuthController {
       },
     });
 
-    if (user) {
-      console.log(credentials.password)
-      console.log(await encriptPassword(credentials.password))
-    }
     const password = await encriptPassword(credentials.password)
 
     if (!user || user.password !== password) {
