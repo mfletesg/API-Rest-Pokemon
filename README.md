@@ -28,15 +28,21 @@ Open http://127.0.0.1:3000 in your browser.
 
 
 ## Ejecutar APIS via Postman
-En el proyecto existe un archivo en el directorio `/postman/APIS Pokemon.postman_collection.json` el cual se importar para empezar a consumir las APIS, en esa coleccion ya viene configuradas las varables de entorno
+En el proyecto existe un archivo en el directorio `/postman/APIS Pokemon.postman_collection.json` el cual se puedo utilizar para importar ese archivo desde postman y empezar a consumir las APIS, en esa coleccion ya vienen configuradas las variables de entorno
+
 ![postman](./img/Img-Postman.png)
+
+
+## Ejecutar en el API Explorer
+Lookback4 proporciona una herramienta para ejecutar las APIS la cual se pueden realizar en la siguiente ruta `http://localhost:3000/explorer/`
+
+![swagger](./img/swagger-img.png)
+
 
 
 
 
 ## Preguntas de la prueba
-
-
 
 ### ¿Cómo implementaste la relación entre el modelo de usuario y el modelo de favoritos?
 Use la propiedad de entidades que tiene LoopBack4 donde se creo la entidad de `user` y `favorites` y se realizo una migración para los esquemas se crearan en la Base de datos, en cada Modelo de entidad se realizo la relación con decoradores "@hasMany" y "@belongsTo"
@@ -48,6 +54,11 @@ Primero tener en cuanta que el usuario para poder agregar o eliminar debe estar 
 ### ¿Si un usuario tiene muchos Pokémon en su lista de favoritos, ¿cómo mejorarías el rendimiento de las consultas para obtenerlos?
 Se tendria que realizar una paginación a nivel base de datos donde en el api reciba un atributo "offset" y un "limit", además agregando un filtro de busqueda para ir filtrando los datos que solo requiere
 
+
+## Base de datos
+Se modelo la siguiente entidad relación el cual se tiene en los Modelos de LoopBack4 y se utiliza para guardar los datos del API
+
+![diagramaDB](./img/diagramaDB.png)
 
 
 ## Librerias Utilizadas
